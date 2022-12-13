@@ -1,0 +1,939 @@
+﻿<Window x:Class="pyRoad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pyRoad"
+        mc:Ignorable="d"
+        xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
+        Title="Py Road" Height="650" Width="1020" MinHeight="700" MinWidth="1020" Icon="/pyRoad.ico">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="b2vc"></BooleanToVisibilityConverter>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0"
+                          BorderThickness="1" BorderBrush="Transparent"
+                          CornerRadius="0,0,0,0">
+                                <ContentPresenter 
+                          ContentSource="Header"
+                          RecognizesAccessKey="True" />
+                            </Border>
+                            <Border Grid.Row="1" BorderBrush="#FFD2D2D2" Background="White"
+                                    BorderThickness="1"
+                                    CornerRadius="0,15,15,15">
+                                <ContentPresenter Margin="4" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsFlicksEnabled" Value="True" />
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Height" Value="4" />
+                    <Setter Property="MinHeight" Value="4" />
+                </Trigger>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="4" />
+                    <Setter Property="MinWidth" Value="4" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter 
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Content="{TemplateBinding Content}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    Margin="{TemplateBinding Padding}">
+                            </ContentPresenter>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ToolTip}" >
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="HasDropShadow" Value="True" />
+            <Setter Property="Foreground" Value="#FF252525" />
+            <Setter Property="FontFamily" Value="{StaticResource Myriad Arabic Regular}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Placement" Value="Bottom" />
+            <Setter Property="VerticalOffset" Value="0" />
+            <Setter Property="Padding" Value="8" />
+
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToolTip}" >
+                        <StackPanel Margin="7,1" >
+                            <Border Background="#FBFBFD" CornerRadius="5" BorderBrush="#E1E6EA" BorderThickness="1">
+                                <ContentPresenter Margin="10,4,10,4" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                            </Border>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ContextMenu}">
+            <Setter Property="SnapsToDevicePixels"
+          Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+          Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope"
+          Value="true" />
+            <Setter Property="HasDropShadow"
+          Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border x:Name="Border" Background="#FFEEF4F9" BorderBrush="#FFC7C7C7" BorderThickness="1">
+                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasDropShadow" Value="true">
+                                <Setter TargetName="Border" Property="Padding" Value="0,0,0,0" />
+                                <Setter TargetName="Border" Property="CornerRadius" Value="5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="#FFEEF4F9">
+
+        <Grid HorizontalAlignment="Right" Width="270">
+            <Border Background="#05000000" CornerRadius="10" Margin="10,10,10,0" Height="80" VerticalAlignment="Top" BorderBrush="Black">
+                <Border.Effect>
+                    <BlurEffect Radius="0" KernelType="Gaussian"/>
+                </Border.Effect>
+
+                <Grid>
+                    <Border Background="#19000000" Margin="10,5,5,5" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="100">
+                        <Label Content="&#x000f0013;" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource FontIcon}" Foreground="Black"/>
+                    </Border>
+
+                    <Label x:Name="lblName" FontSize="15" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="50,0,0,0" VerticalAlignment="Center" Height="60" FontFamily="{StaticResource SGKara Regular}" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+                </Grid>
+            </Border>
+
+            <ScrollViewer Margin="0,98,0,2">
+
+                <Grid>
+                    <Border x:Name="brQuestionsTab" Background="#0A000000" CornerRadius="5" Margin="18,10,20,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" >
+                        <Grid>
+                            <Label Content="همه ی سوالات" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontFamily="{StaticResource SGKara Regular}" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="12"/>
+                            <Image Source="Resources/Icons/allQs-icon.png" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="18" Margin="0,0,10,0" />
+                            <Border x:Name="brQuestionsTabSelector" Background="#0067C0" CornerRadius="1.5" HorizontalAlignment="Right" VerticalAlignment="Center" Width="3" Height="17"
+                                    Visibility="Collapsed"
+                                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Visibility="{Binding ElementName=btnQuestionsTab, Path=Tag, Converter={StaticResource b2vc}}"/>
+
+                            <Button x:Name="btnQuestionsTab" Background="#00FBFBFD" FocusVisualStyle="{x:Null}" Click="btnQustionsTab_Click">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                            <ContentPresenter.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <ScaleTransform/>
+                                                                    <SkewTransform/>
+                                                                    <RotateTransform Angle="-0.099"/>
+                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                </TransformGroup>
+                                                            </ContentPresenter.RenderTransform>
+                                                        </ContentPresenter>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="brSelectedQuestionsTab" Background="#00000000" CornerRadius="5" Margin="18,50,20,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" >
+                        <Grid>
+                            <Label Content="سوالات شرکت شده" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontFamily="{StaticResource SGKara Regular}" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="12"/>
+                            <Image Source="Resources/Icons/selectedQs-icon.png" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="18" Margin="0,0,10,0" />
+                            <Border x:Name="brSelectedQuestionsTabSelector" Background="#0067C0" CornerRadius="1.5" HorizontalAlignment="Right" VerticalAlignment="Center" Width="3" Height="17"
+                                    Visibility="Collapsed"
+                                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Visibility="{Binding ElementName=btnSelectedQuestionsTab, Path=Tag, Converter={StaticResource b2vc}}"/>
+
+                            <Button x:Name="btnSelectedQuestionsTab" Background="#00FBFBFD" FocusVisualStyle="{x:Null}" Click="btnSelectedQuestionsTab_Click">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                            <ContentPresenter.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <ScaleTransform/>
+                                                                    <SkewTransform/>
+                                                                    <RotateTransform Angle="-0.099"/>
+                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                </TransformGroup>
+                                                            </ContentPresenter.RenderTransform>
+                                                        </ContentPresenter>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="brNewQuestionsTab" Background="#00000000" CornerRadius="5" Margin="18,90,20,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" >
+                        <Grid>
+                            <Label Content="سوالات جدید" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontFamily="{StaticResource SGKara Regular}" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="12"/>
+                            <Image Source="Resources/Icons/newQs-icon.png" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="18" Margin="0,0,10,0" />
+                            <Border x:Name="brNewQuestionsTabSelector" Background="#0067C0" CornerRadius="1.5" HorizontalAlignment="Right" VerticalAlignment="Center" Width="3" Height="17"
+                                    Visibility="Collapsed"
+                                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Visibility="{Binding ElementName=btnNewQuestionsTab, Path=Tag, Converter={StaticResource b2vc}}"/>
+
+                            <Button x:Name="btnNewQuestionsTab" Background="#00FBFBFD" FocusVisualStyle="{x:Null}" Click="btnNewQuestionsTab_Click">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                            <ContentPresenter.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <ScaleTransform/>
+                                                                    <SkewTransform/>
+                                                                    <RotateTransform Angle="-0.099"/>
+                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                </TransformGroup>
+                                                            </ContentPresenter.RenderTransform>
+                                                        </ContentPresenter>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="brSettingsTab" Background="#00000000" CornerRadius="5" Margin="18,130,20,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" >
+                        <Grid>
+                            <Label Content="تنظیمات" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontFamily="{StaticResource SGKara Regular}" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="12"/>
+                            <Image Source="Resources/Icons/settings-icon.png" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="18" Margin="0,0,10,0" />
+                            <Border x:Name="brSettingsTabSelector" Background="#0067C0" CornerRadius="1.5" HorizontalAlignment="Right" VerticalAlignment="Center" Width="3" Height="17"
+                                    Visibility="Collapsed"
+                                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=50, TransitionOn=Visibility}"
+                                    tz:Transitionz.Visibility="{Binding ElementName=btnSettingsTab, Path=Tag, Converter={StaticResource b2vc}}"/>
+
+                            <Button x:Name="btnSettingsTab" Background="#00FBFBFD" FocusVisualStyle="{x:Null}" Click="btnSettingsTab_Click">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                            <ContentPresenter.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <ScaleTransform/>
+                                                                    <SkewTransform/>
+                                                                    <RotateTransform Angle="-0.099"/>
+                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                </TransformGroup>
+                                                            </ContentPresenter.RenderTransform>
+                                                        </ContentPresenter>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <Border x:Name="brAboutUsTab" Background="#00000000" CornerRadius="5" Margin="18,170,20,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" >
+                        <Grid>
+                            <Label Content="راهنما" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0" FontSize="12" FontFamily="{StaticResource SGKara Regular}"/>
+                            <Image Source="Resources/Icons/aboutUs-icon.png" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="18" Margin="0,0,10,0" />
+                            <Border x:Name="brAboutUsTabSelector" Background="#0067C0" CornerRadius="1.5" HorizontalAlignment="Right" VerticalAlignment="Center" Width="3" Height="17"
+                                        Visibility="Collapsed"
+                                        tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=50, TransitionOn=Visibility}"
+                                        tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=50, TransitionOn=Visibility}"
+                                        tz:Transitionz.Visibility="{Binding ElementName=btnAboutUsTab, Path=Tag, Converter={StaticResource b2vc}}"/>
+
+                            <Button x:Name="btnAboutUsTab" Background="#00FBFBFD" FocusVisualStyle="{x:Null}" Click="btnAboutUsTab_Click">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                            <ContentPresenter.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <ScaleTransform/>
+                                                                    <SkewTransform/>
+                                                                    <RotateTransform Angle="-0.099"/>
+                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                </TransformGroup>
+                                                            </ContentPresenter.RenderTransform>
+                                                        </ContentPresenter>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+            </ScrollViewer>
+
+        </Grid>
+
+        <Grid Margin="0,0,270,0">
+            <Label x:Name="lblTitle" Content="پای روود" FontSize="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0,10,15,0" VerticalAlignment="Top" Height="60" FontFamily="{StaticResource SGKara Regular}" FontWeight="Bold" HorizontalAlignment="Right"/>
+
+            <!-- Questions !-->
+            <Grid Margin="0,85,0,0"
+            Visibility="Visible"
+                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Translate="{tz:TranslateParams From='0,10', To='0,0', Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Visibility="{Binding ElementName=btnQuestionsTab, Path=Tag, Converter={StaticResource b2vc}}">
+
+                <Button x:Name="btnAddNewQuestions" Background="#0067C0" Content="افزودن سوالات جدید +" Tag="False" FontFamily="{StaticResource SGKara Regular}" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Width="123" Height="30" Margin="15,10,0,0" Click="btnAddNewQuestions_Click" Foreground="White">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="BorderBrush" Value="#003C70" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter RenderTransformOrigin="0.695,0.655" Margin="9,7,0,0" >
+                                                <ContentPresenter.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="-0.099"/>
+                                                        <TranslateTransform X="0.005" Y="-0.013"/>
+                                                    </TransformGroup>
+                                                </ContentPresenter.RenderTransform>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#1A76C6" TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#3284CC" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <ScrollViewer Margin="0,45,0,0">
+                    <Grid Margin="10">
+
+                        <ListBox x:Name="listQuestions" Background="Transparent" Tag="false" BorderThickness="0" Margin="0,0,0,0" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FBFBFD" BorderBrush="#E1E6EA" BorderThickness="1" CornerRadius="5" Height="70" Margin="25,0,15,0">
+                                        <Grid>
+                                            <Label Content="{Binding Icon}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="60" HorizontalAlignment="Right" FontSize="25" Foreground="#FF3E3E3E" FontStyle="Normal" FontFamily="{StaticResource FontIcon}"/>
+                                            <Label Content="{Binding Text}" FontFamily="{StaticResource Myriad Arabic Regular}" FontSize="22" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="50,0,60,15" Foreground="#FF3E3E3E"/>
+                                            <Label Content="{Binding Description}" FontFamily="{StaticResource Myriad Arabic Regular}" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="50,22,60,0" Foreground="#FF6B6B6B"/>
+                                            <Label Content="&#x000f0141;" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="50" HorizontalAlignment="Left" FontSize="20" Foreground="#FF3E3E3E" FontFamily="{StaticResource FontIcon}"/>
+                                            <ProgressBar Value="{Binding Progress , Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+
+                                            <Button x:Name="btnQuestionsItem" Background="#00FBFBFD" Tag="{Binding Tag}" Click="btnQuestionsItem_Click">
+                                                <Button.Resources>
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Setter Property="CornerRadius" Value="5"/>
+                                                    </Style>
+                                                </Button.Resources>
+                                                <Button.Style>
+                                                    <Style TargetType="{x:Type Button}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                                            <ContentPresenter.RenderTransform>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform/>
+                                                                                    <SkewTransform/>
+                                                                                    <RotateTransform Angle="-0.099"/>
+                                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                                </TransformGroup>
+                                                                            </ContentPresenter.RenderTransform>
+                                                                        </ContentPresenter>
+                                                                    </Border>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsPressed" Value="True">
+                                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Selected Questions !-->
+            <Grid Margin="0,85,0,0"
+            Visibility="Visible"
+                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Translate="{tz:TranslateParams From='0,10', To='0,0', Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Visibility="{Binding ElementName=btnSelectedQuestionsTab, Path=Tag, Converter={StaticResource b2vc}}">
+
+                <ScrollViewer>
+                    <Grid Margin="10">
+
+                        <ListBox x:Name="listSelectedQuestions" Background="Transparent" Tag="false" BorderThickness="0" Margin="0,0,0,0" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FBFBFD" BorderBrush="#E1E6EA" BorderThickness="1" CornerRadius="5" Height="70" Margin="25,0,15,0">
+                                        <Grid>
+                                            <Label Content="{Binding Icon}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="60" HorizontalAlignment="Right" FontSize="25" Foreground="#FF3E3E3E" FontStyle="Normal" FontFamily="{StaticResource FontIcon}"/>
+                                            <Label Content="{Binding Text}" FontFamily="{StaticResource Myriad Arabic Regular}" FontSize="22" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="50,0,60,15" Foreground="#FF3E3E3E"/>
+                                            <Label Content="{Binding Description}" FontFamily="{StaticResource Myriad Arabic Regular}" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="50,22,60,0" Foreground="#FF6B6B6B"/>
+                                            <Label Content="&#x000f0141;" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="50" HorizontalAlignment="Left" FontSize="20" Foreground="#FF3E3E3E" FontFamily="{StaticResource FontIcon}"/>
+                                            <ProgressBar Value="{Binding Progress , Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+
+                                            <Button x:Name="btnSelectedQuestionsItem" Background="#00FBFBFD" Tag="{Binding Tag}" Click="btnQuestionsItem_Click">
+                                                <Button.Resources>
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Setter Property="CornerRadius" Value="5"/>
+                                                    </Style>
+                                                </Button.Resources>
+                                                <Button.Style>
+                                                    <Style TargetType="{x:Type Button}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                                            <ContentPresenter.RenderTransform>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform/>
+                                                                                    <SkewTransform/>
+                                                                                    <RotateTransform Angle="-0.099"/>
+                                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                                </TransformGroup>
+                                                                            </ContentPresenter.RenderTransform>
+                                                                        </ContentPresenter>
+                                                                    </Border>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsPressed" Value="True">
+                                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- New Questions !-->
+            <Grid Margin="0,85,0,0"
+            Visibility="Visible"
+                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Translate="{tz:TranslateParams From='0,10', To='0,0', Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Visibility="{Binding ElementName=btnNewQuestionsTab, Path=Tag, Converter={StaticResource b2vc}}">
+
+                <Button x:Name="btnNewQuestionExport" Background="#0067C0" Content="ذخیره ی فایل 📁" Tag="False" FontFamily="{StaticResource SGKara Regular}" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Width="98" Height="30" Margin="15,10,0,0" Click="btnNewQuestionExport_Click" Foreground="White">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="BorderBrush" Value="#003C70" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter RenderTransformOrigin="0.695,0.655" Margin="9,7,0,0" >
+                                                <ContentPresenter.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="-0.099"/>
+                                                        <TranslateTransform X="0.005" Y="-0.013"/>
+                                                    </TransformGroup>
+                                                </ContentPresenter.RenderTransform>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#1A76C6" TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#3284CC" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="btnNewQuestion" Background="White" Content="سوال جدید +" Tag="False" FontFamily="{StaticResource SGKara Regular}" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Height="30" Margin="125,10,0,0" Click="btnNewQuestion_Click" Foreground="Black">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="BorderBrush" Value="LightGray" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter RenderTransformOrigin="0.695,0.655" Margin="9,7,0,0" >
+                                                <ContentPresenter.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="-0.099"/>
+                                                        <TranslateTransform X="0.005" Y="-0.013"/>
+                                                    </TransformGroup>
+                                                </ContentPresenter.RenderTransform>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#F8F8F8" TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#F3F3F3" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <ScrollViewer Margin="0,45,0,0">
+                    <Grid Margin="10">
+                        <ListBox x:Name="listNewQuestions" Background="Transparent" Tag="false" BorderThickness="0" Margin="0,0,0,0" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FBFBFD" BorderBrush="#E1E6EA" BorderThickness="1" CornerRadius="5" Height="70" Margin="25,0,15,0">
+                                        <Grid>
+                                            <Label Content="{Binding Icon}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="60" HorizontalAlignment="Right" FontSize="25" Foreground="#FF3E3E3E" FontStyle="Normal" FontFamily="{StaticResource FontIcon}"/>
+                                            <Label Content="{Binding Text}" FontFamily="{StaticResource Myriad Arabic Regular}" FontSize="22" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="50,0,60,15" Foreground="#FF3E3E3E"/>
+                                            <Label Content="{Binding Description}" FontFamily="{StaticResource Myriad Arabic Regular}" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="50,22,60,0" Foreground="#FF6B6B6B"/>
+                                            <Label Content="&#x000f0141;" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="50" HorizontalAlignment="Left" FontSize="20" Foreground="#FF3E3E3E" FontFamily="{StaticResource FontIcon}"/>
+                                            <ProgressBar Value="{Binding Progress , Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+
+                                            <Button x:Name="btnNewQuestionsItem" Background="#00FBFBFD" Tag="{Binding Tag}">
+                                                <Button.Resources>
+                                                    <Style TargetType="{x:Type Border}">
+                                                        <Setter Property="CornerRadius" Value="5"/>
+                                                    </Style>
+                                                </Button.Resources>
+                                                <Button.Style>
+                                                    <Style TargetType="{x:Type Button}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter RenderTransformOrigin="0.695,0.655" Height="34" Margin="9,13,299,0" VerticalAlignment="Top" >
+                                                                            <ContentPresenter.RenderTransform>
+                                                                                <TransformGroup>
+                                                                                    <ScaleTransform/>
+                                                                                    <SkewTransform/>
+                                                                                    <RotateTransform Angle="-0.099"/>
+                                                                                    <TranslateTransform X="0.005" Y="-0.013"/>
+                                                                                </TransformGroup>
+                                                                            </ContentPresenter.RenderTransform>
+                                                                        </ContentPresenter>
+                                                                    </Border>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsPressed" Value="True">
+                                                                            <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Question Item -->
+            <Grid Margin="0,85,0,0" Background="#FFEEF4F9"
+            Visibility="Collapsed"
+                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Visibility="{Binding ElementName=btnQuestionItemBack, Path=Tag, Converter={StaticResource b2vc}}">
+
+                <ProgressBar x:Name="progQuestionItem" HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderBrush="Transparent"/>
+
+                <Button x:Name="btnQuestionItemBack" Background="Transparent" Content="&#x000f0054;" Tag="False" FontFamily="{StaticResource FontIcon}" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Height="30" Margin="0,10,15,0" Click="btnQuestionItemBack_Click">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter RenderTransformOrigin="0.695,0.655" Margin="9,7,0,0" >
+                                                <ContentPresenter.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="-0.099"/>
+                                                        <TranslateTransform X="0.005" Y="-0.013"/>
+                                                    </TransformGroup>
+                                                </ContentPresenter.RenderTransform>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#03000000" TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#05000000" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="btnQuestionItemFile" Background="#0067C0" Content="انتخاب فایل 📁" Tag="False" FontFamily="{StaticResource SGKara Regular}" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Height="30" Margin="15,10,0,0" Click="btnQuestionItemFile_Click" Foreground="White">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="BorderBrush" Value="#003C70" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter RenderTransformOrigin="0.695,0.655" Margin="9,7,0,0" >
+                                                <ContentPresenter.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="-0.099"/>
+                                                        <TranslateTransform X="0.005" Y="-0.013"/>
+                                                    </TransformGroup>
+                                                </ContentPresenter.RenderTransform>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#1A76C6" TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#3284CC" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="btnQuestionItemCode" Background="White" Content="کد تست شده 📄" Tag="False" FontFamily="{StaticResource SGKara Regular}" FontSize="11" VerticalAlignment="Top" HorizontalAlignment="Left" Width="103" Height="30" Margin="115,10,0,0" Click="btnQuestionItemCode_Click" Foreground="Black">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="BorderBrush" Value="LightGray" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter RenderTransformOrigin="0.695,0.655" Margin="9,7,0,0" >
+                                                <ContentPresenter.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="-0.099"/>
+                                                        <TranslateTransform X="0.005" Y="-0.013"/>
+                                                    </TransformGroup>
+                                                </ContentPresenter.RenderTransform>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#F8F8F8" TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#F3F3F3" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Grid Margin="10,50,10,10">
+
+                    <Label Margin="0,0,0,0" x:Name="lblQuestionTitle" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" FontSize="16" FontFamily="{StaticResource Shabnam}"/>
+                    <Label Margin="0,30,0,0" x:Name="lblQuestionAuthor" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" FontSize="14" FontFamily="{StaticResource Shabnam}"/>
+                    <Label Margin="0,30,0,0" x:Name="lblQuestionTime" VerticalContentAlignment="Top" HorizontalContentAlignment="Left" FontSize="14" FontFamily="{StaticResource Shabnam}"/>
+
+                    <TextBox Margin="10,70,0,10" x:Name="txtQuestionBody" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" VerticalScrollBarVisibility="Visible" VerticalContentAlignment="Top" HorizontalContentAlignment="Right" FontSize="14" Background="#7FFFFFFF" BorderBrush="#00ABADB3" FontFamily="{StaticResource Shabnam}">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10,0,0,10"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
+                </Grid>
+
+            </Grid>
+
+            <!-- Settings -->
+            <Grid Margin="0,85,0,0" Background="#FFEEF4F9"             
+            Visibility="Collapsed"
+                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Visibility="{Binding ElementName=btnSettingsTab, Path=Tag, Converter={StaticResource b2vc}}">
+
+                <Label Content=":نام و نام خانوادگی" Margin="0,20,25,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource SGKara Regular}" HorizontalAlignment="Right" Width="120"/>
+                <TextBox x:Name="txtName" BorderThickness="1" BorderBrush="#FFE0E0E0" Margin="0,20,145,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontFamily="{StaticResource SGKara Regular}" SelectionBrush="#4C003763" Height="30" KeyUp="txtName_KeyUp" HorizontalAlignment="Right" Width="220">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+
+                <Label Content=":پایتون یافت شده" Margin="0,70,25,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource SGKara Regular}" FontWeight="Bold" HorizontalAlignment="Right" Width="120"/>
+                <Label Content=":نسخه-" Margin="0,110,60,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource SGKara Regular}" FontWeight="Normal" HorizontalAlignment="Right" Width="55"/>
+                <Label x:Name="lblPythonVersion" Margin="20,110,130,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontFamily="{StaticResource CascadiaCode}" FontWeight="Normal" Height="30"/>
+
+                <Label Content=":مسیر-" Margin="0,140,60,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="{StaticResource SGKara Regular}" FontWeight="Normal" HorizontalAlignment="Right" Width="55"/>
+                <Label x:Name="lblPythonPath" Margin="20,140,130,0" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontFamily="{StaticResource CascadiaCode}" FontWeight="Normal" Height="30"/>
+
+            </Grid>
+
+            <!-- About us -->
+            <Grid Margin="0,85,0,0" Background="#FFEEF4F9"             
+            Visibility="Collapsed"
+                    tz:Transitionz.Opacity="{tz:OpacityParams From=0, To=1, Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Translate="{tz:TranslateParams From='10,0', To='0,0', Duration=150, TransitionOn=Visibility}"
+                    tz:Transitionz.Visibility="{Binding ElementName=btnAboutUsTab, Path=Tag, Converter={StaticResource b2vc}}">
+
+                <TextBox Text="به پای روود خوش اومدی😊
+&#x0a;اینجا میتونی کلی سوال حل کنی
+&#x0a;حتی میتونی خودت به عنوان طراح، سوال طرح کنی
+&#x0a;
+&#x0a;اما چجوری؟😁
+&#x0a;کار با این نرم افزار خیلی راحته
+&#x0a;همچنین سعی شده تا ظاهری منعطف و کاربر پسند داشته باشه
+&#x0a;
+&#x0a;اینجا محیطی شاداب برای یادگیری برنامه نویسیه
+&#x0a;
+&#x0a;!از اونجایی که این نرم افزار متن باز یا به اصطلاح اوپن سورسه میتونی سورسشو ببینی و حتی تغییر بدی
+&#x0a;
+&#x0a;امیدوارم لذت ببرید و مفید باشه 👍😍" Margin="20" BorderBrush="Transparent" Background="Transparent" IsReadOnly="True" TextWrapping="WrapWithOverflow" HorizontalContentAlignment="Right" VerticalContentAlignment="Top" FontFamily="{StaticResource SGKara Regular}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="10,0,0,10"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>

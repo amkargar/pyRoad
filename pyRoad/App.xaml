@@ -1,0 +1,13 @@
+﻿<Application x:Class="pyRoad.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:pyRoad"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <FontFamily x:Key="FontIcon">pack://application:,,,/Resources/Fonts/#Material Design Icons</FontFamily>
+        <FontFamily x:Key="CascadiaCode">pack://application:,,,/Resources/Fonts/#Cascadia Code</FontFamily>
+        <FontFamily x:Key="Myriad Arabic Regular">pack://application:,,,/Resources/Fonts/#Myriad Arabic</FontFamily>
+        <FontFamily x:Key="SGKara Regular">pack://application:,,,/Resources/Fonts/#SG Kara</FontFamily>
+        <FontFamily x:Key="Shabnam">pack://application:,,,/Resources/Fonts/#Shabnam</FontFamily>
+    </Application.Resources>
+</Application>
